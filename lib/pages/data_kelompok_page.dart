@@ -29,25 +29,25 @@ class DataKelompokPage extends StatelessWidget {
     _Anggota(
       nama: 'Rakha Taufiqurrahman Faisal Aziz',
       nim: '123230071',
-      peran: 'Marksman',
+      peran: 'anggota',
       avatar: Icons.person,
     ),
     _Anggota(
       nama: 'Elyuzar Fazlurahman',
       nim: '123230216',
-      peran: 'Tank',
+      peran: 'anggota',
       avatar: Icons.person_outline,
     ),
     _Anggota(
       nama: 'Muhammad Rizal Wahyu Dharmawan',
       nim: '123230200',
-      peran: 'Jungler',
+      peran: 'anggota',
       avatar: Icons.person_outline,
     ),
     _Anggota(
       nama: 'Anak Agung Ngurah Sadewa Tedja Jayanegara',
       nim: '123230050',
-      peran: 'Pemulung',
+      peran: 'anggota',
       avatar: Icons.person_outline,
     ),
   ];
