@@ -1,17 +1,42 @@
-# horus
+Anggota Kelompok
 
-A new Flutter project.
+Proyek ini dikerjakan dengan penuh semangat oleh:
 
-## Getting Started
+    Rakha - 123230071
 
-This project is a starting point for a Flutter application.
+    Elyuzar - 123230216
 
-A few resources to get you started if this is your first Flutter project:
+    Rizal - 123230200
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+    Dewa - 123230050
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Fitur Utama
+
+Aplikasi ini memiliki navigasi yang terorganisir untuk mengakses menu-menu berikut:
+
+    Sistem Login: Keamanan sederhana dengan validasi username dan password.
+
+    Data Kelompok: Menampilkan profil lengkap anggota tim pengembang.
+
+    Operasi Aritmatika: Menu interaktif untuk melakukan penjumlahan dan pengurangan angka.
+
+    Logika Bilangan:
+
+        Cek Ganjil atau Genap.
+
+        Cek Bilangan Prima atau bukan.
+
+    Total Penjumlahan Digit: Menghitung total angka dalam satu input field (misal: 123 menjadi 1+2+3 = 6).
+
+    Stopwatch: Fitur penghitung waktu dengan fungsi Start, Stop, dan Reset.
+
+    Kalkulator Geometri: Menghitung Luas Permukaan dan Volume Piramida (Limas Segiempat) secara akurat.
+
+Teknologi yang Digunakan
+
+    Bahasa: Dart
+
+    Framework: Flutter
+
+    Editor: VS Code / Android Studio
+
