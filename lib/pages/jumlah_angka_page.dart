@@ -35,11 +35,11 @@ class _JumlahAngkaPageState extends State<JumlahAngkaPage> {
   void _hitungTotal() {
     final input = _angkaController.text.trim();
 
-    // Validasi: harus berisi angka
-    if (input.isEmpty || int.tryParse(input) == null) {
+    // Validasi: harus berisi angka, dan hanya digit saja (bisa lebih dari 64-bit)
+    if (input.isEmpty || !RegExp(r'^\d+$').hasMatch(input)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Masukkan angka yang valid!'),
+          content: const Text('Masukkan deret angka yang valid!'),
           backgroundColor: Theme.of(context).colorScheme.error,
           behavior: SnackBarBehavior.floating,
           shape:
@@ -85,9 +85,24 @@ class _JumlahAngkaPageState extends State<JumlahAngkaPage> {
       ),
 
       // ---- Body ----
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
           children: [
             // ---- Card Input ----
             Card(
@@ -253,6 +268,10 @@ class _JumlahAngkaPageState extends State<JumlahAngkaPage> {
             ],
           ],
         ),
+      ),
+      ),
+        ],
+      ),
       ),
     );
   }

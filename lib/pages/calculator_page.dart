@@ -1,12 +1,12 @@
 // ============================================================
-// calculator_page.dart - Menu Penjumlahan & Pengurangan
-// Dua input field angka + tombol hitung hasil tambah & kurang
+// calculator_page.dart - Menu Kalkulator Dasar
+// Dua input field angka + tombol operasi (+, -, ×, ÷)
 // ============================================================
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Halaman kalkulator penjumlahan dan pengurangan
+/// Halaman kalkulator dasar
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
 
@@ -22,6 +22,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // Variabel untuk menyimpan hasil perhitungan
   String? _hasilTambah;
   String? _hasilKurang;
+  String? _hasilKali;
+  String? _hasilBagi;
 
   @override
   void dispose() {
@@ -30,13 +32,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
     super.dispose();
   }
 
-  /// Fungsi utama untuk menghitung penjumlahan & pengurangan
+  /// Fungsi utama untuk menghitung
   void _hitung() {
     // Parsing input ke double
     final angka1 = double.tryParse(_angka1Controller.text);
     final angka2 = double.tryParse(_angka2Controller.text);
 
-    // Validasi input
+    // Validasi input null
     if (angka1 == null || angka2 == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -54,7 +56,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
     setState(() {
       final tambah = angka1 + angka2;
       final kurang = angka1 - angka2;
-
+      final kali = angka1 * angka2;
+      
       // Format: hilangkan .0 jika bilangan bulat
       _hasilTambah = tambah == tambah.roundToDouble() && tambah % 1 == 0
           ? tambah.toInt().toString()
@@ -62,6 +65,19 @@ class _CalculatorPageState extends State<CalculatorPage> {
       _hasilKurang = kurang == kurang.roundToDouble() && kurang % 1 == 0
           ? kurang.toInt().toString()
           : kurang.toStringAsFixed(2);
+      _hasilKali = kali == kali.roundToDouble() && kali % 1 == 0
+          ? kali.toInt().toString()
+          : kali.toStringAsFixed(2);
+
+      // Error handling untuk pembagian dengan nol
+      if (angka2 == 0) {
+        _hasilBagi = 'Error (Dibagi 0)';
+      } else {
+        final bagi = angka1 / angka2;
+        _hasilBagi = bagi == bagi.roundToDouble() && bagi % 1 == 0
+            ? bagi.toInt().toString()
+            : bagi.toStringAsFixed(2);
+      }
     });
   }
 
@@ -72,6 +88,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
       _angka2Controller.clear();
       _hasilTambah = null;
       _hasilKurang = null;
+      _hasilKali = null;
+      _hasilBagi = null;
     });
   }
 
@@ -82,15 +100,30 @@ class _CalculatorPageState extends State<CalculatorPage> {
     return Scaffold(
       // ---- AppBar ----
       appBar: AppBar(
-        title: const Text('Penjumlahan & Pengurangan'),
+        title: const Text('Kalkulator Dasar'),
         backgroundColor: colorScheme.primaryContainer,
         foregroundColor: colorScheme.onPrimaryContainer,
       ),
 
       // ---- Body ----
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
           children: [
             // ---- Card Input ----
             Card(
@@ -200,9 +233,37 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 result: _hasilKurang!,
                 color: Colors.red,
               ),
+              const SizedBox(height: 12),
+
+              // Hasil Perkalian
+              _buildHasilCard(
+                context,
+                icon: Icons.close_rounded,
+                label: 'Perkalian',
+                expression:
+                    '${_angka1Controller.text} × ${_angka2Controller.text}',
+                result: _hasilKali!,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 12),
+
+              // Hasil Pembagian
+              _buildHasilCard(
+                context,
+                icon: Icons.percent_rounded,
+                label: 'Pembagian',
+                expression:
+                    '${_angka1Controller.text} ÷ ${_angka2Controller.text}',
+                result: _hasilBagi!,
+                color: Colors.orange,
+              ),
             ],
           ],
         ),
+      ),
+      ),
+        ],
+      ),
       ),
     );
   }

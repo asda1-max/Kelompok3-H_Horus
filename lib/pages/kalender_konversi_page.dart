@@ -329,13 +329,32 @@ class _KalenderKonversiPageState extends State<KalenderKonversiPage>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildHariWetonTab(context),
-          _buildTanggalLahirTab(context),
-          _buildHijriahTab(context),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildHariWetonTab(context),
+                _buildTanggalLahirTab(context),
+                _buildHijriahTab(context),
+              ],
+            ),
+          ),
         ],
+      ),
       ),
     );
   }

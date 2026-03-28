@@ -93,7 +93,22 @@ class _StopwatchPageState extends State<StopwatchPage> {
       ),
 
       // ---- Body ----
-      body: Column(
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: Column(
         children: [
           // ---- Bagian atas: Display waktu ----
           Expanded(
@@ -286,6 +301,10 @@ class _StopwatchPageState extends State<StopwatchPage> {
               ),
             ),
         ],
+      ),
+      ),
+        ],
+      ),
       ),
     );
   }

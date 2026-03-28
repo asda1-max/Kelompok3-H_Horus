@@ -116,9 +116,24 @@ class _GeometriPageState extends State<GeometriPage> {
       ),
 
       // ---- Body ----
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
           children: [
             // ---- Ilustrasi Piramida ----
             Card(
@@ -353,6 +368,10 @@ class _GeometriPageState extends State<GeometriPage> {
             ],
           ],
         ),
+      ),
+      ),
+        ],
+      ),
       ),
     );
   }

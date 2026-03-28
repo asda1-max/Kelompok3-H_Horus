@@ -47,10 +47,10 @@ class _CekBilanganPageState extends State<CekBilanganPage> {
   void _cekBilangan() {
     final bilangan = int.tryParse(_bilanganController.text);
 
-    if (bilangan == null) {
+    if (bilangan == null || bilangan < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Masukkan bilangan bulat yang valid!'),
+          content: const Text('Masukkan bilangan bulat positif yang valid!'),
           backgroundColor: Theme.of(context).colorScheme.error,
           behavior: SnackBarBehavior.floating,
           shape:
@@ -90,9 +90,24 @@ class _CekBilanganPageState extends State<CekBilanganPage> {
       ),
 
       // ---- Body ----
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.85),
+            ),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
           children: [
             // ---- Card Input ----
             Card(
@@ -121,8 +136,8 @@ class _CekBilanganPageState extends State<CekBilanganPage> {
                       controller: _bilanganController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        // Hanya izinkan angka dan tanda minus
-                        FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
+                        // Hanya izinkan angka saja
+                        FilteringTextInputFormatter.digitsOnly,
                       ],
                       decoration: const InputDecoration(
                         labelText: 'Bilangan',
@@ -218,6 +233,10 @@ class _CekBilanganPageState extends State<CekBilanganPage> {
             ],
           ],
         ),
+      ),
+      ),
+        ],
+      ),
       ),
     );
   }
