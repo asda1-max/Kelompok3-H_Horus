@@ -83,71 +83,75 @@ class HomePage extends StatelessWidget {
       drawer: _buildDrawer(context, menuItems),
 
       // ---- Body: Grid Menu ----
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              colorScheme.primary.withValues(alpha: 0.07),
-              colorScheme.surface,
-              colorScheme.surface,
-            ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeroCard(context),
-              const SizedBox(height: 20),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.78),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeroCard(context),
+                const SizedBox(height: 20),
 
-              // Label section
-              Row(
-                children: [
-                  Text(
-                    'Menu Fitur',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.2,
-                        ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
+                // Label section
+                Row(
+                  children: [
+                    Text(
+                      'Menu Fitur',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.2,
+                          ),
                     ),
-                    child: Text(
-                      '${menuItems.length} menu',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.primary,
-                        fontSize: 12,
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '${menuItems.length} menu',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.primary,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              // List menu
-              Expanded(
-                child: ListView.separated(
-                  itemCount: menuItems.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final item = menuItems[index];
-                    return _buildMenuCard(context, item, index + 1);
-                  },
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+
+                // List menu
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: menuItems.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final item = menuItems[index];
+                      return _buildMenuCard(context, item, index + 1);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -206,7 +210,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Pilih fitur favoritmu dengan tampilan baru yang lebih clean ✨',
+                  'Selamat Datang di Horus App',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 13,

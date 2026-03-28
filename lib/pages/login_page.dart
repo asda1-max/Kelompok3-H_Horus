@@ -1,11 +1,12 @@
 // ============================================================
 // login_page.dart - Halaman Login
-// Simulasi login sederhana dengan username & password
-// Username: admin | Password: admin
+// Login menggunakan akun yang sudah diregister (tanpa hardcoded)
 // ============================================================
 
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'register_page.dart';
+import '../services/auth_service.dart';
 
 /// Halaman Login - titik masuk pertama pengguna
 class LoginPage extends StatefulWidget {
@@ -28,6 +29,19 @@ class _LoginPageState extends State<LoginPage> {
 
   // State untuk loading indicator
   bool _isLoading = false;
+  bool _hasAccount = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAccountStatus();
+  }
+
+  Future<void> _loadAccountStatus() async {
+    final hasAccount = await AuthService.hasRegisteredUser();
+    if (!mounted) return;
+    setState(() => _hasAccount = hasAccount);
+  }
 
   @override
   void dispose() {
@@ -38,21 +52,23 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// Fungsi untuk memproses login
-  /// Simulasi: username = "admin", password = "admin"
   Future<void> _handleLogin() async {
     // Validasi form terlebih dahulu
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    // Simulasi delay jaringan
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 600));
 
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    // Cek kredensial (simulasi sederhana)
-    if (username == 'admin' && password == 'admin') {
+    final isValid = await AuthService.login(
+      username: username,
+      password: password,
+    );
+
+    if (isValid) {
       if (!mounted) return;
 
       // Navigasi ke HomePage dan hapus stack login
@@ -67,7 +83,11 @@ class _LoginPageState extends State<LoginPage> {
       // Tampilkan pesan error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Username atau password salah!'),
+          content: Text(
+            _hasAccount
+                ? 'Username atau password salah!'
+                : 'Belum ada akun. Silakan register dulu.',
+          ),
           backgroundColor: Theme.of(context).colorScheme.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -83,34 +103,39 @@ class _LoginPageState extends State<LoginPage> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      // Gunakan gradient background
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              colorScheme.primary,
-              colorScheme.primaryContainer,
-            ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.18),
+            ),
+          ),
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Card(
+                  color: Colors.white.withValues(alpha: 0.78),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    side: BorderSide(
+                      color: Colors.white.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
                         // ---- Icon / Logo ----
                         Container(
                           padding: const EdgeInsets.all(16),
@@ -226,36 +251,38 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 16),
 
-                        // ---- Hint kredensial ----
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.info_outline,
-                                  size: 18, color: Colors.grey[600]),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Hint: username & password = admin',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                            ],
-                          ),
+                        // ---- Aksi Register ----
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _hasAccount
+                                  ? 'Belum punya akun? '
+                                  : 'Belum ada akun. ',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const RegisterPage()),
+                                );
+                                _loadAccountStatus();
+                              },
+                              child: const Text('Register'),
+                            ),
+                          ],
                         ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

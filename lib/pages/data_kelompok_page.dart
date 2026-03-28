@@ -65,57 +65,73 @@ class DataKelompokPage extends StatelessWidget {
       ),
 
       // ---- Body ----
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      body: Stack(
         children: [
-          // ---- Header informasi kelompok ----
-          Card(
-            color: colorScheme.primaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.groups_rounded,
-                    size: 48,
-                    color: colorScheme.onPrimaryContainer,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Kelompok 3 kelas H',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: colorScheme.onPrimaryContainer,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Mata Kuliah: Pemrograman Mobile',
-                    style: TextStyle(
-                      color:
-                          colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
-                    ),
-                  ),
-                ],
-              ),
+          Positioned.fill(
+            child: Image.asset(
+              'images/bg.jpg',
+              fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(height: 16),
-
-          // ---- Label ----
-          Text(
-            'Anggota Kelompok',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+          Positioned.fill(
+            child: Container(
+              color: colorScheme.surface.withValues(alpha: 0.78),
+            ),
           ),
-          const SizedBox(height: 8),
+          ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              // ---- Header informasi kelompok ----
+              Card(
+                color: colorScheme.primaryContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.groups_rounded,
+                        size: 48,
+                        color: colorScheme.onPrimaryContainer,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Kelompok 3 kelas H',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.onPrimaryContainer,
+                                ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Mata Kuliah: Pemrograman Mobile',
+                        style: TextStyle(
+                          color: colorScheme.onPrimaryContainer
+                              .withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
 
-          // ---- Daftar anggota ----
-          ...List.generate(_anggota.length, (index) {
-            final anggota = _anggota[index];
-            return _buildAnggotaCard(context, anggota, index);
-          }),
+              // ---- Label ----
+              Text(
+                'Anggota Kelompok',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 8),
+
+              // ---- Daftar anggota ----
+              ...List.generate(_anggota.length, (index) {
+                final anggota = _anggota[index];
+                return _buildAnggotaCard(context, anggota, index);
+              }),
+            ],
+          ),
         ],
       ),
     );
